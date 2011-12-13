@@ -20,6 +20,19 @@ class Painting(db.Model):
   series = db.StringProperty()
   status = db.StringProperty()
 
+def escape(value):
+
+  html_escape_table = {
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+    ">": "&gt;",
+    "<": "&lt;",
+    }
+
+
+  """Produce entities within text."""
+  return "".join(html_escape_table.get(c,c) for c in value)
 
 #The Home class constructs the homepage with no template variables
 class Home(webapp.RequestHandler):
@@ -44,9 +57,9 @@ class Gallery(webapp.RequestHandler):
 
   def get(self):
     #Extract any filtering variables
-    filter = self.request.get("filter")
-    value = self.request.get("value")
-    order = self.request.get("order")
+    filter = escape(self.request.get("filter"))
+    value = escape(self.request.get("value"))
+    order = escape(self.request.get("order"))
 
     #Construct the filtering hashes
     valuemap = {'classic':'Classic', 'illustrative':'Illustrative', 'abstract':'Abstract', '10x14':'10x14', '12x28':'12x28', '17x28':'17x28', '23x31':'23x31', '20x24':'20x24'}
@@ -108,7 +121,7 @@ class Gallery(webapp.RequestHandler):
 #The Product class constructs each painting's product page
 class Product(webapp.RequestHandler):
   def get(self):
-    id = self.request.get('id')
+    id = escape(self.request.get('id'))
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
     template_values = {
@@ -120,7 +133,7 @@ class Product(webapp.RequestHandler):
 #Temporary class with dynamically input pricing for the auction
 class ProductAuction(webapp.RequestHandler):
   def get(self):
-    id = self.request.get('id')
+    escape(id = self.request.get('id'))
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
     template_values = {
@@ -162,7 +175,6 @@ class Thumbnails(webapp.RequestHandler):
             }
     path = os.path.join(os.path.dirname(__file__), 'templates/thumbnails.html')
     self.response.out.write(template.render(path, template_values))
-
 
 #This is webapp application constructor for the main site pages, which constructs pages using the classes above based on the URL provided
 application = webapp.WSGIApplication ([('/', Home),
