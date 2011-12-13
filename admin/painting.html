@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Gregory Mchopa Admin Dashboard</title>
+		<link rel="stylesheet" href="/css/style_admin.css" type="text/css" media="screen" />
+	</head>
+
+  <body>
+    {% if error %}<div><span class=error>{{ error }}</span><br /></div>{% endif %}
+    <form action="{{ url }}" method="post" name="painting" enctype="multipart/form-data">
+<table cellpadding="1">
+    <tr><td><label for="id_title">Title:</label></td>
+        <td>{{ paintingform.title.errors }}{{ paintingform.title }}</td>
+    </tr>
+    <tr><td><label for="id_description">Description:</label></td>
+        <td>{{ paintingform.description.errors }}{{ paintingform.description }}</td>
+    </tr>
+    <tr><td><label for="id_title">Series:</label>
+        <td>{{ paintingform.series.errors }}{{ paintingform.series }}</td>
+    </tr>
+    <tr><td><label for="id_size">Size:</label>
+        <td>{{ paintingform.size.errors }}{{ paintingform.size }}</td>
+    </tr>
+    <tr><td><label for="id_title">Price:</label>
+        <td>{{ paintingform.price.errors }}{{ paintingform.price }}</td>
+    </tr>
+    <tr><td><label for="id_status">Status:</label>
+        <td>{{ paintingform.status.errors }}{{ paintingform.status }}</td>
+    </tr>
+    <tr><td><label for="id_filename">Filename:</label></td>
+        <td>{{ paintingform.filename.errors }}{{ paintingform.filename }} <span class="example">(e.g. 'painting.jpg')</span></td>
+    </tr>
+</table>
+
+
+      <input type="hidden" value="{{ id }}" name="id"></input>
+      <p><input type="submit" value="{{ text }} painting"></p>
+    </form>
+</body>
+</html>
+
+

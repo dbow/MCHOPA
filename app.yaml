@@ -1,0 +1,35 @@
+application: gregorymchopa
+version: 16
+runtime: python
+api_version: 1
+
+handlers:
+- url: /img
+  static_dir: img
+
+- url: /paintingimages
+  static_dir: paintingimages
+
+- url: /css
+  static_dir: css
+
+- url: /js
+  static_dir: js
+
+- url: /swf
+  static_dir: swf
+
+- url: /admin
+  script: mchopa_admin.py
+  login: admin
+
+- url: /admin/.*
+  script: mchopa_admin.py
+  login: admin
+
+- url: /.*
+  script: mchopa_site.py
+
+- url: /index\.html
+  script: mchopa_site.py
+

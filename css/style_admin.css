@@ -1,0 +1,171 @@
+@charset "UTF-8";
+/* CSS Document */
+
+body,td,th {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #666666;
+	line-height: 16px;
+}
+body {
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+h2 {
+    color: #333333;
+}
+.title {
+    color:#333333;
+    font-weight: bold;
+}
+.text {
+    color:#333333;
+	}
+a:link {
+	color: #E44145;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #E44145;
+}
+a:hover {
+	text-decoration: underline;
+	color: #E44145;
+}
+a:active {
+	text-decoration: none;
+	color: #E44145;
+}
+.header1 {
+	font-size: 12px;
+	color: #E44145;
+}
+.header2 {
+	font-size: 13px;
+	color: #939598;
+}
+.header2 a:link {
+	text-decoration: none;
+	color: #E44145;
+}
+.header2 a:visited {
+	text-decoration: none;
+	color: #E44145;
+}
+.header2 a:hover {
+	text-decoration: underline;
+	color: #E44145;
+}
+.header2 a:active {
+	text-decoration: none;
+	color: #E44145;
+}
+.address {
+	font-size: 11px;
+	color: #939598;
+}
+.sidenav {
+	font-size: 12px;
+	color: #939598;
+}
+.sidenav-selected {
+	font-size: 12px;
+	color: #E44145;
+}
+.sidenav a:link {
+	text-decoration: none;
+	color: #939598;
+}
+.sidenav a:visited {
+	text-decoration: none;
+	color: #939598;
+}
+.sidenav a:hover {
+	text-decoration: none;
+	color: #E44145;
+}
+.sidenav a:active {
+	text-decoration: none;
+	color: #E44145;
+}
+.dot1 {
+	border-bottom:1px dotted #939598;
+}
+.dot2 {
+	border:1px dotted #939598;
+	padding:8px 8px 8px 8px;
+}
+.dot3 {
+	border-top:1px dotted #939598;
+}
+.gallery-header {
+	font-size: 12px;
+	color: #939598;
+}
+.price {
+	font-size: 17px;
+	color: #939598;
+}
+.footer {
+	font-size:9px;
+	color:#D1D3D4;
+}
+.error{border:2px solid #c43b1d;background-color:#ffe6cc;padding:2px}
+.warn{border:2px solid #c43b1d;background-color:#ffe6cc;padding:2px}
+
+ul.errorlist {
+    margin: 0;
+    padding: 0;
+}
+.errorlist li {
+    background-color: red;
+    color: white;
+    display: block;
+    font-size: 10px;
+    margin: 0 0 3px;
+    padding: 4px 5px;
+}
+
+body {
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.example {
+    color: #66CCCC;
+}
+.error {
+    background-color: red;
+    color: white;
+    display: block;
+    font-size: 14px;
+    margin: 0 0 3px;
+    padding: 4px 5px;
+}
+
+
+
+.message {
+    color: white;
+    display: block;
+    font-size: 18px;
+    font-weight:bold;
+}
+.errormsg {
+    background-color: red;
+    border:2px solid #c43b1d;
+}
+.added {
+    background-color: #66CCCC;
+    border:2px solid #c43b1d;
+}
+.dup {
+    background-color: orange;
+    border:2px solid #c43b1d;
+}
+.deleted {
+    background-color: pink;
+    border:2px solid #c43b1d;
+}

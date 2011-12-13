@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Gregory Mchopa - {{ painting.title }}</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" />
+</head>
+
+<body>
+	
+	<div id="page" class="clearfix">
+
+		<div id="left-sidebar">
+			<div id="left-title" class="dot1">
+				<a href="/index.html"><img src="/img/mchopa_logo.gif" alt="Gregory Mchopa" width="234" height="30" border="0" /></a>
+			</div>
+			<div id="left-nav">
+				<ul>
+					<li class="sidenav dot1 selected"><a href="/bio.html">BIO</a></li>
+					<li class="sidenav dot1"><a href="/inspiration.html">INSPIRATION</a></li>
+					<li class="sidenav dot1"><span class="selected">GALLERY &gt;</span></li>
+					<li class="sidenav dot1">
+						<div id="gallery-sublist">
+							<a href="/gallery">ALL</a><br />
+							<a href="/gallery/series.html">BY SERIES</a><br />
+							<a href="/gallery/size.html">BY SIZE</a><br />
+						</div>
+					</li>
+					<li class="sidenav dot1"><a href="/links.html">LINKS</a></li>
+					<li class="sidenav dot1"><a href="/contact.html">CONTACT</a></li>
+				</ul>				
+			</div>
+			<div id="left-map">
+				<img src="/img/africa_map.gif" alt="Tanzania, Africa" width="230" height="290" />
+			</div>
+		</div>
+
+		<div class="right-content static-right-content" id="product">
+			<div class="dot1 right-space1"></div>
+
+			<div id="product-content">
+				<div class="dot1 header1"><a href="../gallery">GALLERY</a> &gt; {{ painting.title|upper }}</div>
+                <div class="static-right-image"><img src="/paintingimages/full/{{ painting.filename }}" alt="{{ painting.title }}" width="422" class="content-image" /></div>				
+			</div>
+			<div class="dot1 right-space3"></div>
+			<div id="right-footer" class="clearfix">
+				<div id="logo"><a href="http://www.brutelabs.org/?src=mchopa"><img src="/img/b.gif" alt="BRUTE LABS" width="18" height="18" border="0" /></a></div>
+				<div class="footer">Copyright © 2009 Gregory Mchopa. All Rights Reserved</div>
+			</div>
+		</div>
+
+		<div class="right-content super-right-content">
+			<div class="dot1 right-space1"></div>
+			<div class="header1 dot1">PAINTING DETAILS</div>
+			<div class="super-right-section">
+				<p>{{ painting.description }}</p>
+				<p>Painting is <a href="../gallery?filter=size&value={{ painting.size }}">{{ painting.size }}</a> inches.</p>
+				<p>Part of the <a href="../gallery?filter=series&value={{ painting.series|lower }}">{{ painting.series }}</a> series.</p>
+				<p>Original oil painting on canvas.</p>
+			</div>
+			<div class="header1 dot1">SHIPPING INFO</div>
+			<div class="super-right-section">
+				<p>All orders processed with Google Checkout and shipped via USPS from California.  Tax and shipping calculated once added to your shopping cart</p>
+				<p>Have questions about this painting?<br />Email <a href="mailto:store@mchopa.com?Subject={{ painting.title }}">store@mchopa.com</a>.</p>
+			</div>
+			<div class="header1 dot1">PRICE</div>
+			
+			<div class="super-right-price-area clearfix">
+				<div class="super-right-price">${{ painting.price }}</div>
+				{% ifequal painting.status "Available" %}
+		        <div class="product" align="center">
+		          <input type="hidden" class="product-title" value="{{ painting.title }}">
+		          <input type="hidden" class="product-price" value="{{ painting.price }}">
+		          <input type="hidden" class="product-attr-size" value="{{ painting.size }}">
+		          <input type="hidden" class="product-attr-series" value="{{ painting.series }} Series">   
+		          <input type="hidden" class="product-weight" value="2.0" />      
+		          <input type="hidden" name="shopping-cart.items.item-#.quantity" value="1"/>
+		          <span class="googlecart-add"><img src="../img/addtocart.gif" width="112" height="27" /></span>
+		        </div>
+          		{% else %}
+            	{% ifequal painting.status "Reserved" %}
+               	<div align="center"><span class="sold">Reserved</span></div>
+            	{% else %}
+               	<div align="center"><span class="sold">Sold</span></div>
+            	{% endifequal %}
+         		{% endifequal %}
+			</div>
+		</div>
+
+	<form id="googlecart-checkout-config">
+
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-1.name" value="USPS Priority International (Canada)"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-1.price" value="30.00">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-1.price.currency" value="USD"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-1.shipping-restrictions.allowed-areas.postal-area-1.country-code" value="CA">
+
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-2.name" value="USPS Priority International Mail"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-2.price" value="50.00">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-2.price.currency" value="USD"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-2.shipping-restrictions.allowed-areas.postal-area-1.country-code" value="AU">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-2.shipping-restrictions.allowed-areas.postal-area-3.country-code" value="TW">
+
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.name" value="USPS Priority International"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.price" value="45.00">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.price.currency" value="USD"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-1.country-code" value="GB">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-2.country-code" value="PT">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-3.country-code" value="BG">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-4.country-code" value="GR">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-5.country-code" value="IE">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-6.country-code" value="DE">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-7.country-code" value="BR">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-8.country-code" value="IT">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-9.country-code" value="BE">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-10.country-code" value="CH">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-11.country-code" value="SE">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-12.country-code" value="ZA">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-13.country-code" value="NL">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-14.country-code" value="FR">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-15.country-code" value="HK">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-16.country-code" value="MY">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-17.country-code" value="AR">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-18.country-code" value="SG">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-19.country-code" value="RU">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-3.shipping-restrictions.allowed-areas.postal-area-20.country-code" value="BY">
+
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-4.name" value="USPS Priority International (PR)"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-4.price" value="25.00">
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-4.price.currency" value="USD"> 
+		<input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.flat-rate-shipping-4.shipping-restrictions.allowed-areas.postal-area-1.country-code" value="PR">
+
+		  <input type="hidden" name="ccs_company_1" value="USPS"/>
+		  <input type="hidden" name="ccs_shipping_type_1" value="Priority Mail"/>
+		  <input type="hidden" name="ccs_price_1" value="10.95"/>
+		  <input type="hidden" name="checkout-flow-support.merchant-checkout-flow-support.shipping-methods.carrier-calculated-shipping-1.carrier-calculated-shipping-options.carrier-calculated-shipping-option-1.additional-variable-charge-percent" value="25"/>
+
+		<input type="hidden" name="ccs_package_ship_from_id_1" value="ABC"/> 
+		<input type="hidden" name="ccs_package_ship_from_city_1" value="Mountain View"/> 
+		<input type="hidden" name="ccs_package_ship_from_region_1" value="CA"/> 
+		<input type="hidden" name="ccs_package_ship_from_country_1" value="US"/> 
+		<input type="hidden" name="ccs_package_ship_from_postal_code_1" value="94043"/>
+
+	</form>
+
+	</div>
+
+	<script  id='googlecart-script' type='text/javascript' 
+	src='https://checkout.google.com/seller/gsc/v2_2/cart.js?mid=811916743818877' 
+	integration='jscart-wizard' 
+	post-cart-to-sandbox='false' 
+	currency='USD' 
+	aid="UA-9083772-1">
+	</script>
+	<script> 
+	  var googlecartBeforeAdd = function(item, index, newQuantity, opt_node) { 
+	    if (newQuantity > 1)  { 
+	      alert('Because these are original paintings, quantity is limited to 1 each');
+		  return false; 
+	  	} else {
+	      return true; 		
+		}
+	  }
+	</script> 
+
+</body>
+</html>

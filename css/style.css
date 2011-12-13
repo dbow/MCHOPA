@@ -1,0 +1,376 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* reset */
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;}input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}input,textarea,select{*font-size:100%;}legend{color:#000;}a,a:visited{color:inherit;text-decoration:none}
+
+/* clearfix */
+.clearfix:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0;}.clearfix{display:inline-block;}html[xmlns] .clearfix{display:block;}* html .clearfix{height:1%;}div.clearfix{display:block;}
+
+/* main */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  font-family: "Arial", sans-serif;
+  color: #939598;
+  line-height: 16px;
+  font-size: 11px;
+}
+
+/* CSS for every page */
+
+#page {
+  margin-left: 14px;
+  margin-top: 14px;
+  position: relative;
+}
+
+  /* The sidebar on the left side of every page */
+
+  #left-sidebar {
+    width: 246px;
+    float: left;
+  }
+    #left-title {
+      height: 30px;
+      padding: 6px;
+    }
+
+    #left-nav li {
+      padding: 6px;
+      font-size: 12px;
+      color: #939598;
+    }
+
+    #left-nav .selected {
+      font-size: 12px;
+      color: #E44145;
+    }
+
+    #left-nav li a {
+      text-decoration: none;
+      color: #939598;
+    }
+
+    #left-nav li a:hover {
+      color: #E44145;
+    }
+  
+    #left-nav li a:active {
+      color: #E44145;
+    }
+
+    #left-map {
+      padding: 6px;
+    }
+
+/* The content area on the right hand side of every page. */
+
+  .right-content {
+    float: left;
+    margin-left: 11px;
+  }
+
+    .right-space1 {
+      height: 42px;
+    }
+  
+    .right-space2 {
+      height: 62px;
+    }
+  
+    .right-space3 {
+      height: 10px;
+    }
+  
+    .right-content p {
+      margin: 6px 0px 6px 0px;
+    }
+
+    #right-footer {
+      height: 42px;
+      position: relative;
+    }
+      #logo {
+        float: left;
+        margin: 12px 6px 12px 9px;
+      }
+      .footer {
+        float: left;
+        margin: 13px 0px 12px 6px;
+        font-size:9px;
+        color:#D1D3D4;
+      }
+
+
+/* General site styling */
+
+.dot1 {
+  border-bottom:1px dotted #939598;
+}
+.content-image {
+  border:1px dotted #939598;
+  padding:8px 8px 8px 8px;
+  margin-left: 6px;
+}
+
+a:link {
+	color: #E44145;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #E44145;
+}
+a:hover {
+	text-decoration: underline;
+	color: #E44145;
+}
+a:active {
+	text-decoration: none;
+	color: #E44145;
+}
+
+.header1 {
+	font-size: 12px;
+	color: #E44145;
+	padding: 6px;
+}
+.header2 {
+	font-size: 13px;
+	color: #939598;
+        padding: 6px;
+}
+
+.header2 a:link {
+	text-decoration: none;
+	color: #E44145;
+}
+.header2 a:visited {
+	text-decoration: none;
+	color: #E44145;
+}
+.header2 a:hover {
+	text-decoration: underline;
+	color: #E44145;
+}
+.header2 a:active {
+	text-decoration: none;
+	color: #E44145;
+}
+
+
+/* CSS for the homepage */
+
+  #home {
+    width: 678px;
+  }
+
+  .contentslide {
+    height: 472px;
+  }
+
+    .contentslide .contentdiv {
+      display: none;
+    }
+
+      .home-image {
+        height: 432px;
+        width: 648px;
+      }      
+
+    .pagination {
+      width: 672px;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      height: 28px;
+      text-align: right;
+      text-decoration:none;
+    }
+
+    .pagination a:link {
+  	  padding:2px 5px 2px 5px;
+  	  text-decoration: none; 
+  	  color: #999999;
+  	  background-color: white;
+  	  border:#CCCCCC 1px solid;
+  	  text-decoration:none;
+    } 
+
+    .pagination a:hover, .pagination a.selected {
+    	padding:2px 5px 2px 5px;
+    	color: #FFFFFF;
+    	background-color: #E44145;
+    	border:#CCCCCC 1px solid;
+    	text-decoration:none;
+    }
+
+    .pagination a:visited {
+      text-decoration: none;
+    }
+    .pagination a:hover {
+      text-decoration: none;
+    }
+    .pagination a:active {
+      text-decoration: none;
+    }
+
+/* CSS for the Bio, Inspiration, Links, and Contact Pages */
+
+  .static-right-content {
+    width: 453px;
+  }
+    .static-right-image {
+      margin: 6px 0px 6px 0px;
+    }
+    
+    .static-right-text {
+      margin: 0px 6px 0px 6px;
+      padding: 1em 0em 1em 0em;
+    }
+
+  .links-group {
+    position:relative;
+    padding: 6px;
+  }
+
+  .links-group div {
+    float: left;
+  }
+  .links-group .links-summary {
+    width: 300px;
+    margin-left: 6px;
+  }
+  
+  .address {
+	  font-size: 11px;
+	  color: #939598;
+	  float: left;
+	  min-width: 100px;
+          padding: 12px 0px 12px 0px;
+  }
+
+/* CSS for Gallery page */
+
+#gallery-sublist {
+  margin-left: 17px;
+}
+
+.gallery-nav {
+  position: relative;
+}
+
+  .gallery-breadcrumb {
+    float: left;
+  }
+
+  .gallery-pagenav {
+    float: right;
+  }
+
+.subheader {
+    font-size: 12px;
+    color: #939598;
+    padding: 6px;
+}
+
+.painting {
+  margin-bottom: 29px;
+}
+
+.gallery-header {
+  font-size: 12px;
+  color: #939598;
+  padding: 6px 0px 12px 6px;
+}
+  
+  .painting-details {
+    float: left;
+  }
+  
+  .painting-details-container {
+    width: 255px;
+    margin-left: 29px;
+  }
+
+  .painting-details-container div {
+    padding-bottom: 12px;
+  }
+
+  .price-area {
+    margin-top: 30px;
+  }
+  
+  .price-area div {
+    float: left;
+  }
+
+  .price {
+    font-size: 17px;
+    color: #939598;
+    margin-right: 80px;
+  }
+
+  .sold {
+    font-size:18px;
+    color: #E44145;
+    font-weight:bold;
+  }
+
+  #page-nav {
+    width: 100%;
+    text-align: center;
+    margin-top: 6px;
+  }
+
+.series-item {
+  margin-bottom: 12px;
+}
+
+.series-detail {
+  float: left;
+}
+  .series-description {
+    margin: 32px 0px 0px 32px;
+    width: 260px;
+  }
+
+.size-item {
+  margin-bottom: 12px;
+}
+
+.size-detail {
+  float: left;
+}
+  .size-description {
+    margin: 32px 0px 0px 32px;
+    width: 260px;
+  }
+
+.super-right-content {
+  width: 220px;
+}
+
+  .super-right-section {
+    margin-bottom: 12px;
+  }
+
+    .super-right-content div p {
+      margin: 12px 6px 0px 6px;
+    }
+    
+    .super-right-price-area {
+      margin: 10px 6px 0px 6px;
+    }
+  
+    .super-right-price-area div {
+      float: left;
+    }
+
+    .super-right-price {
+      font-size: 17px;
+      color: #939598;
+      margin-right: 50px;
+    }

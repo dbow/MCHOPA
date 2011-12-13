@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Gregory Mchopa Admin Dashboard</title>
+		<link rel="stylesheet" href="css/style_admin.css" type="text/css" media="screen" />
+	</head>
+
+  <body style="font-size: 14px">
+   <h2>Gregory Mchopa Gallery Database</h2>
+   <table cellpadding="4">{% if error %}<tr><td class="message"><span class="errormsg">{{ error }}</span></td></tr>{% endif %}{% if added %}<tr><td class="message"><span class="added">{{ added }}</span></td></tr>{% endif %}{% if dup %}<tr><td class="message"><span class="dup">{{ dup }}</span></td></tr>{% endif %}{% if deleted %}<tr><td class="message"><span class=deleted>{{ deleted }}</span></td></tr>{% endif %}<br /></table><br />
+    <table border="1" bordercolor="#666666" cellpadding="2" cellspacing="0">
+      <tr>
+        <td class="title">ID#</td>
+        <td class="title">Title</td>
+        <td class="title">Description</td>
+        <td class="title">Series</td>
+        <td class="title">Size</td>
+        <td class="title">Price</td>
+        <td class="title">Status</td>
+        <td class="title">Filename</td>
+        <td colspan="3">&nbsp;</td>
+      </tr>     
+      {% for painting in paintings %}
+        <tr>
+          <td>{{ painting.idnumber }}</td>
+          <td>{{ painting.title }}</td>
+          <td>{{ painting.description }}</td>
+          <td>{{ painting.series }}</td>
+          <td>{{ painting.size }}</td>
+          <td>{{ painting.price }}</td>
+          <td>{{ painting.status }}</td>
+          <td>{{ painting.filename }}</td>
+          <td><a href="/gallery/product?id={{ painting.idnumber }}">View</a></td>
+          <td><a href="/admin/edit?id={{ painting.idnumber }}">Edit</a></td>
+          <td><a href="JavaScript:confirmation({{ painting.idnumber }})">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+	<br /><br />
+	<div class="text">There are two ways to add paintings to the database:<br /><br />
+
+	1.  <a href="/admin/create">Create new painting</a><br /><br />
+	<form action="/admin/csvupload" method="post" enctype="multipart/form-data">
+        <div>2.  Bulk upload paintings with a CSV file  <INPUT type="file" name="csvupload"><br />
+		<span style="color:#999999">Note: CSV header must be 'Title,Description,Series,Size,Price,Status,Filename'</span><br />
+        <input type="submit" value="Upload CSV"</div>
+    </form>
+    <br />
+    <br />
+   </div>
+<script type="text/javascript">
+	<!--
+	function confirmation(id) {
+		var answer = confirm("Delete painting?")
+		if (answer){
+			window.location = "/admin/delete?id=" + id;
+		}
+		else{
+			window.location = "/admin";
+		}
+	}
+	//-->
+</script>
+  </body>
+</html>
+
+
+			       
