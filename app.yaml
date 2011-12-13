@@ -16,20 +16,9 @@ handlers:
 - url: /js
   static_dir: js
 
-- url: /swf
-  static_dir: swf
-
-- url: /admin
-  script: mchopa_admin.py
-  login: admin
-
-- url: /admin/.*
+- url: /admin.*
   script: mchopa_admin.py
   login: admin
 
 - url: /.*
   script: mchopa_site.py
-
-- url: /index\.html
-  script: mchopa_site.py
-
