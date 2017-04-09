@@ -140,7 +140,7 @@ class Product(webapp2.RequestHandler):
 #Temporary class with dynamically input pricing for the auction
 class ProductAuction(webapp2.RequestHandler):
   def get(self):
-    escape(id = self.request.get('id'))
+    id = escape(self.request.get('id'))
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
     template_values = {

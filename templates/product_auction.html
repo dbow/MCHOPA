@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Gregory Mchopa - {{ painting.title }}</title>
+<link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" />
+</head>
+
+<body>
+ <table width="948" border="0" cellpadding="0" cellspacing="4">
+  <tr>
+   <td style="vertical-align:top" width="234">
+      
+     <table cellpadding="6" cellspacing="0">
+      <tr>
+       <td width="234" height="30" colspan="2" class="dot1"><a href="../index.html"><img src="../img/mchopa_logo.gif" alt="Gregory Mchopa" width="234" height="30" border="0" /></a></td>
+      </tr>
+      <tr>
+       <td colspan="2" class="dot1"><span class="sidenav"><a href="../bio.html">BIO</a></span></td>
+      </tr>
+      <tr>
+       <td colspan="2" class="dot1"><span class="sidenav"><a href="../inspiration.html">INSPIRATION</a></span></td>
+      </tr>
+      <tr>
+       <td colspan="2" class="dot1"><span class="sidenav-selected">GALLERY &gt;</span></td>
+      </tr>
+      <tr>
+       <td width="5" class="dot1"></td>
+       <td width="215" class="dot1"><span class="sidenav"><a href="../gallery">ALL</a><br />
+        <a href="series.html">BY SERIES</a><br />
+        <a href="size.html">BY SIZE</a><br \>
+        </span></td>
+      </tr>
+      <tr>
+       <td colspan="2" class="dot1"><span class="sidenav"><a href="../links.html">LINKS</a></span></td>
+      </tr>
+      <tr>
+       <td colspan="2" class="dot1"><span class="sidenav"><a href="../contact.html">CONTACT</a></span></td>
+      </tr>
+      <tr>
+       <td colspan="2" valign="top"><img src="../img/africa_map.gif" alt="Tanzania, Africa" width="230" height="290" /></td>
+      </tr>
+     </table>
+    </td>
+    
+    <td>&nbsp;</td>
+
+    <td style="vertical-align:top">
+      <table cellpadding="6" cellspacing="0">
+
+        <tr>
+          <td class="dot1"><img src="../img/spacer.gif" width="1" height="30" /></td>
+        </tr>
+        <tr>
+          <td height="13" class="dot1"><span class="header1"><a href="../gallery">GALLERY</a> &gt; {{ painting.title|upper }}</span></td>
+        </tr>
+        <tr>
+          <td valign="top" class="dot1"><img src="/paintingimages/full/{{ painting.filename }}" alt="{{ painting.title }}" width="422" class="dot2" /></td>
+        </tr>
+          <tr>
+            <td height="30" valign="middle">
+             <table>
+                <tr>
+                  <td height="18" valign="middle"><a href="http://www.brutelabs.org/?src=mchopa"><img src="../img/b.gif" alt="BRUTE LABS" width="18" height="18" border="0" /></a></td>
+                   <td width="5" height="18" valign="middle" class="footer">&nbsp;</td>
+                   <td><span class="footer">Copyright © 2009 Gregory Mchopa. All Rights Reserved</span></td>
+                 </tr>
+              </table>
+            </td>
+         </tr>
+        </table>
+      </td>
+
+    <td>&nbsp;</td>
+
+    <td style="vertical-align:top">
+      <table cellpadding="6" cellspacing="0">
+
+        <tr>
+          <td colspan="2" class="dot1"><img src="../img/spacer.gif" width="1" height="30" /></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="dot1"><span class="header1">PAINTING DETAILS</span></td>
+        </tr>
+        <tr>
+          <td colspan="2" valign="top"><p>{{ painting.description }}</p>
+          <p>Painting is <a href="../gallery?filter=size&value={{ painting.size }}">{{ painting.size }}</a> inches.</p>
+          <p>Part of the <a href="../gallery?filter=series&value={{ painting.series|lower }}">{{ painting.series }}</a> series.</p></td>
+        </tr>
+        <tr>
+          <td colspan="2" valign="top" class="dot1"><span class="header1">PRICE</span></td>
+        </tr>
+        <tr>
+          <td valign="middle" class="price"></td>
+          <td>
+          {% if painting.status == "Reserved" %}
+        <div class="product" align="center">
+          <input type="hidden" class="product-title" value="{{ painting.title }}">
+		  Input Final Auction Price:<br />$ <input class="product-price" value="">
+          <input type="hidden" class="product-attr-size" value="{{ painting.size }}">
+          <input type="hidden" class="product-attr-series" value="{{ painting.series }} Series">         
+          <input type="hidden" name="shopping-cart.items.item-#.quantity" value="1"/>
+          <span class="googlecart-add"><img src="../img/addtocart.gif" width="112" height="27" /></span>
+        </div>{% else %}
+         <div align="center"><span class="sold">Available Online</span></div>
+         {% endif %}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+<script  id='googlecart-script' type='text/javascript' 
+src='https://checkout.google.com/seller/gsc/v2_2/cart.js?mid=811916743818877' 
+integration='jscart-wizard' 
+post-cart-to-sandbox='false' 
+currency='USD' 
+aid="UA-9083772-1">
+</script>
+<script> 
+ function googlecartBeforeAdd(item, index, newQuantity, opt_node) { 
+  if (newQuantity > 1)  { 
+    alert('Because these are original paintings, quantity is limited to 1 each'); 
+    return false; 
+  } 
+   return true; 
+ } 
+</script> 
+</html>
