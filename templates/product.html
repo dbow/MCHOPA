@@ -66,7 +66,7 @@
 			
 			<div class="super-right-price-area clearfix">
 				<div class="super-right-price">${{ painting.price }}</div>
-				{% ifequal painting.status "Available" %}
+				{% if painting.status == "Available" %}
 		        <div class="product" align="center">
 		          <input type="hidden" class="product-title" value="{{ painting.title }}">
 		          <input type="hidden" class="product-price" value="{{ painting.price }}">
@@ -77,12 +77,12 @@
 		          <span class="googlecart-add"><img src="../img/addtocart.gif" width="112" height="27" /></span>
 		        </div>
           		{% else %}
-            	{% ifequal painting.status "Reserved" %}
+            	{% if painting.status == "Reserved" %}
                	<div align="center"><span class="sold">Reserved</span></div>
             	{% else %}
                	<div align="center"><span class="sold">Sold</span></div>
-            	{% endifequal %}
-         		{% endifequal %}
+            	{% endif %}
+         		{% endif %}
 			</div>
 		</div>
 

@@ -1,43 +1,65 @@
 ﻿<!doctype html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>Gregory Mchopa Admin Dashboard</title>
-		<link rel="stylesheet" href="/css/style_admin.css" type="text/css" media="screen" />
-	</head>
-
-  <body>
-    {% if error %}<div><span class=error>{{ error }}</span><br /></div>{% endif %}
-    <form action="{{ url }}" method="post" name="painting" enctype="multipart/form-data">
-<table cellpadding="1">
-    <tr><td><label for="id_title">Title:</label></td>
-        <td>{{ paintingform.title.errors }}{{ paintingform.title }}</td>
-    </tr>
-    <tr><td><label for="id_description">Description:</label></td>
-        <td>{{ paintingform.description.errors }}{{ paintingform.description }}</td>
-    </tr>
-    <tr><td><label for="id_title">Series:</label>
-        <td>{{ paintingform.series.errors }}{{ paintingform.series }}</td>
-    </tr>
-    <tr><td><label for="id_size">Size:</label>
-        <td>{{ paintingform.size.errors }}{{ paintingform.size }}</td>
-    </tr>
-    <tr><td><label for="id_title">Price:</label>
-        <td>{{ paintingform.price.errors }}{{ paintingform.price }}</td>
-    </tr>
-    <tr><td><label for="id_status">Status:</label>
-        <td>{{ paintingform.status.errors }}{{ paintingform.status }}</td>
-    </tr>
-    <tr><td><label for="id_filename">Filename:</label></td>
-        <td>{{ paintingform.filename.errors }}{{ paintingform.filename }} <span class="example">(e.g. 'painting.jpg')</span></td>
-    </tr>
-</table>
-
-
-      <input type="hidden" value="{{ id }}" name="id"></input>
-      <p><input type="submit" value="{{ text }} painting"></p>
-    </form>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Gregory Mchopa Admin Dashboard</title>
+        <link rel="stylesheet" href="/css/style_admin.css" type="text/css" media="screen" />
+    </head>
+    <body>
+        {% if error %}
+            <div>
+                <div class=error>{{ error }}</div>
+            </div>
+        {% endif %}
+        <form action="{{ url }}" method="post" name="painting" enctype="multipart/form-data">
+            <div>
+                <div>{{ paintingform.title.label }}: {{ paintingform.title() }}</div>
+                {% if paintingform.title.errors %}
+                    <ul class="error">{% for error in paintingform.title.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.description.label }}: {{ paintingform.description() }}</div>
+                {% if paintingform.description.errors %}
+                    <ul class="error">{% for error in paintingform.description.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.series.label }}: {{ paintingform.series() }}</div>
+                {% if paintingform.series.errors %}
+                    <ul class="error">{% for error in paintingform.series.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.size.label }}: {{ paintingform.size() }}</div>
+                {% if paintingform.size.errors %}
+                    <ul class="error">{% for error in paintingform.size.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.price.label }}: {{ paintingform.price() }}</div>
+                {% if paintingform.price.errors %}
+                    <ul class="error">{% for error in paintingform.price.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.status.label }}: {{ paintingform.status() }}</div>
+                {% if paintingform.status.errors %}
+                    <ul class="error">{% for error in paintingform.status.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <div>
+                <div>{{ paintingform.filename.label }}: {{ paintingform.filename() }}</div>
+                {% if paintingform.filename.errors %}
+                    <ul class="error">{% for error in paintingform.filename.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+            <input type="hidden" value="{{ id }}" name="id"></input>
+            <div>
+                <input type="submit" value="{{ text }} painting">
+            </div>
+        </form>
+    </body>
 </html>
 
 

@@ -25,16 +25,16 @@
 						{% else %}
 							<a href="gallery">ALL</a>
 						{% endif %}<br />
-						{% ifequal filter 'series' %}
+						{% if filter == 'series' %}
 							<span class="selected">BY SERIES</span>
 						{% else %}
 							<a href="gallery/series.html">BY SERIES</a>
-						{% endifequal %}<br />
-						{% ifequal filter 'size' %}
+						{% endif %}<br />
+						{% if filter == 'size' %}
 							<span class="selected">BY SIZE</span>
 						{% else %}
 							<a href="gallery/size.html">BY SIZE</a>
-						{% endifequal %}<br />
+						{% endif %}<br />
 						</div>
 					</li>
 					<li class="sidenav dot1"><a href="links.html">LINKS</a></li>
@@ -67,7 +67,7 @@
 						{% endif %}
 					</div>
 				</div>
-				<div class="subheader">Order by Price:&nbsp;&nbsp;&nbsp;{% ifequal order 'asc' %}Ascending{% else %}<a href="gallery?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}order=asc">Ascending</a>{% endifequal %}&nbsp;&nbsp;{% ifequal order 'desc' %}Descending{% else %}<a href="gallery?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}order=desc">Descending</a>{% endifequal %}
+				<div class="subheader">Order by Price:&nbsp;&nbsp;&nbsp;{% if order == 'asc' %}Ascending{% else %}<a href="gallery?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}order=asc">Ascending</a>{% endif %}&nbsp;&nbsp;{% if order == 'desc' %}Descending{% else %}<a href="gallery?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}order=desc">Descending</a>{% endif %}
 				</div>
 
 				{% for painting in paintings %}
@@ -84,7 +84,7 @@
 							</div>
 							<div class="price-area clearfix">
 								<div class="price">${{ painting.price }}</div>
-								{% ifequal painting.status "Available" %}
+								{% if painting.status == "Available" %}
 								<div class="product" align="center">
 									<input type="hidden" class="product-title" value="{{ painting.title }}" />
 									<input type="hidden" class="product-price" value="{{ painting.price }}" />
@@ -95,12 +95,12 @@
 									<span class="googlecart-add"><img src="img/addtocart.gif" width="112" height="27" /></span>
 								</div>
 								{% else %}
-								{% ifequal painting.status "Sold" %}
+								{% if painting.status == "Sold" %}
 								<div align="center"><span class="sold">Sold</span></div>
 								{% else %}
 								<div align="center"><span class="sold">Reserved</span></div>
-								{% endifequal %}
-								{% endifequal %}
+								{% endif %}
+								{% endif %}
 							</div>
 						</div>
 					</div>
@@ -127,7 +127,7 @@
 				</div>
 	
 				<div id="page-nav" class="dot3">
-					<div>Pages:<span class="header2">{% for page in pages %}{% ifequal page pg %}&nbsp;{{ page }}{% else %}&nbsp;<a href="?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}{% if order %}order={{ order }}&{% endif %}pg={{ page }}">{{ page }}</a>{% endifequal %}{% endfor %}</div>
+					<div>Pages:<span class="header2">{% for page in pages %}{% if page == pg %}&nbsp;{{ page }}{% else %}&nbsp;<a href="?{% if filter %}filter={{ filter }}&value={{ value }}&{% endif %}{% if order %}order={{ order }}&{% endif %}pg={{ page }}">{{ page }}</a>{% endif %}{% endfor %}</div>
 				</div>
 			</div>
 

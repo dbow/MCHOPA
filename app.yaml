@@ -1,7 +1,12 @@
-application: gregorymchopa
-version: 16
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
+
+libraries:
+- name: webapp2
+  version: 2.5.2
+- name: jinja2
+  version: 2.6
 
 handlers:
 - url: /img
@@ -17,8 +22,8 @@ handlers:
   static_dir: js
 
 - url: /admin.*
-  script: mchopa_admin.py
+  script: mchopa_admin.app
   login: admin
 
 - url: /.*
-  script: mchopa_site.py
+  script: mchopa_site.app

@@ -1,13 +1,14 @@
-import cgi
+import jinja2
 import os
-import re
-import string
-import math
+import webapp2
 
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext import db
-from google.appengine.ext.webapp import template
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
+
 
 #The Painting class is the database entity for the stored paintings
 class Painting(db.Model):
@@ -20,8 +21,8 @@ class Painting(db.Model):
   series = db.StringProperty()
   status = db.StringProperty()
 
-def escape(value):
 
+def escape(value):
   html_escape_table = {
     "&": "&amp;",
     '"': "&quot;",
@@ -34,26 +35,30 @@ def escape(value):
   """Produce entities within text."""
   return "".join(html_escape_table.get(c,c) for c in value)
 
+
 #The Home class constructs the homepage with no template variables
-class Home(webapp.RequestHandler):
+class Home(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/index.html')
+    self.response.write(template.render({}))
+
 
 #The Bio class constructs the Bio page with no template variables
-class Bio(webapp.RequestHandler):
+class Bio(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/bio.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/bio.html')
+    self.response.write(template.render({}))
+
 
 #The Inspiration class constructs the Inspiration page with no template variables
-class Inspiration(webapp.RequestHandler):
+class Inspiration(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/inspiration.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/inspiration.html')
+    self.response.write(template.render({}))
+
 
 #The Gallery class constructs the Gallery pages based on URL variables
-class Gallery(webapp.RequestHandler):
+class Gallery(webapp2.RequestHandler):
 
   def get(self):
     #Extract any filtering variables
@@ -103,9 +108,9 @@ class Gallery(webapp.RequestHandler):
       next = int(pg) + 1
 
     paintings = paintings[:PAGESIZE]
-    
+
     template_values = {
-		    'paintings': paintings,
+            'paintings': paintings,
             'pg': pg,
             'max': max,
             'pages': pages,
@@ -114,85 +119,88 @@ class Gallery(webapp.RequestHandler):
             'filter': filter,
             'value': value,
             'order': order,
-		    }
-    path = os.path.join(os.path.dirname(__file__), 'templates/gallery.html')
-    self.response.out.write(template.render(path, template_values))
+    }
+    template = JINJA_ENVIRONMENT.get_template('templates/gallery.html')
+    self.response.write(template.render(template_values))
+
 
 #The Product class constructs each painting's product page
-class Product(webapp.RequestHandler):
+class Product(webapp2.RequestHandler):
   def get(self):
     id = escape(self.request.get('id'))
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
     template_values = {
-		    'painting': painting,
-		    }
-    path = os.path.join(os.path.dirname(__file__), 'templates/product.html')
-    self.response.out.write(template.render(path, template_values))
+            'painting': painting,
+    }
+    template = JINJA_ENVIRONMENT.get_template('templates/product.html')
+    self.response.write(template.render(template_values))
+
 
 #Temporary class with dynamically input pricing for the auction
-class ProductAuction(webapp.RequestHandler):
+class ProductAuction(webapp2.RequestHandler):
   def get(self):
     escape(id = self.request.get('id'))
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
     template_values = {
-		    'painting': painting,
-		    }
-    path = os.path.join(os.path.dirname(__file__), 'templates/product_auction.html')
-    self.response.out.write(template.render(path, template_values))
+            'painting': painting,
+    }
+    template = JINJA_ENVIRONMENT.get_template('templates/product_auction.html')
+    self.response.write(template.render(template_values))
+
 
 #The GallerySeries class constructs the 'By Series' page
-class GallerySeries(webapp.RequestHandler):
+class GallerySeries(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/series.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/series.html')
+    self.response.write(template.render({}))
+
 
 #The GallerySize class constructs the 'By Size' page
-class GallerySize(webapp.RequestHandler):
+class GallerySize(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/size.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/size.html')
+    self.response.write(template.render({}))
+
 
 #The Links class constructs the 'Links' page
-class Links(webapp.RequestHandler):
+class Links(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/links.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/links.html')
+    self.response.write(template.render({}))
+
 
 #The Contact class constructs the 'Contact' page
-class Contact(webapp.RequestHandler):
+class Contact(webapp2.RequestHandler):
   def get(self):
-    path = os.path.join(os.path.dirname(__file__), 'templates/contact.html')
-    self.response.out.write(template.render(path, {}))
+    template = JINJA_ENVIRONMENT.get_template('templates/contact.html')
+    self.response.write(template.render({}))
+
 
 #The Thumbnails class constructs the 'Thumbnails' page
-class Thumbnails(webapp.RequestHandler):
+class Thumbnails(webapp2.RequestHandler):
   def get(self):
     paintings = db.GqlQuery("SELECT * FROM Painting ORDER BY idnumber")
     template_values = {
-		    'paintings': paintings,
-            }
-    path = os.path.join(os.path.dirname(__file__), 'templates/thumbnails.html')
-    self.response.out.write(template.render(path, template_values))
+            'paintings': paintings,
+    }
+    template = JINJA_ENVIRONMENT.get_template('templates/thumbnails.html')
+    self.response.write(template.render(template_values))
+
 
 #This is webapp application constructor for the main site pages, which constructs pages using the classes above based on the URL provided
-application = webapp.WSGIApplication ([('/', Home),
-				                               ('/index.html', Home),
-				                               ('/bio.html', Bio),
-				                               ('/inspiration.html', Inspiration),
-               				                 ('/gallery', Gallery),
-                                       ('/gallery/product', Product),
-                                       ('/gallery/auction', ProductAuction),
-                                       ('/gallery/series.html', GallerySeries),
-                                       ('/gallery/size.html', GallerySize),
-				                               ('/links.html', Links),
-                                       ('/thumbnails.html', Thumbnails),
-				                               ('/contact.html', Contact),],
-				                              debug=True)
+app = webapp2.WSGIApplication ([('/', Home),
+                                ('/index.html', Home),
+                                ('/bio.html', Bio),
+                                ('/inspiration.html', Inspiration),
+                                ('/gallery', Gallery),
+                                ('/gallery/product', Product),
+                                ('/gallery/auction', ProductAuction),
+                                ('/gallery/series.html', GallerySeries),
+                                ('/gallery/size.html', GallerySize),
+                                ('/links.html', Links),
+                                ('/thumbnails.html', Thumbnails),
+                                ('/contact.html', Contact),],
+                               debug=True)
 
-def main():
-  run_wsgi_app(application)
-
-if __name__ == "__main__":
-  main()

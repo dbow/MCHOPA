@@ -1,17 +1,18 @@
 import cgi
 import os
 import re
-import string
 import csv
+import webapp2
+import jinja2
+import logging
 
-from google.appengine.ext import webapp
 from google.appengine.ext import db
+from wtforms.ext.appengine.db import model_form
 
-from google.appengine.ext.webapp import template
-from google.appengine.ext.db import djangoforms
-
-from google.appengine.ext.webapp.util import run_wsgi_app
-
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
+    extensions=['jinja2.ext.autoescape'],
+    autoescape=True)
 
 
 #Painting outlines the database entity for the paintings
@@ -25,15 +26,11 @@ class Painting(db.Model):
   series = db.StringProperty(choices=['','Classic', 'Illustrative', 'Abstract'])
   status = db.StringProperty(required=True, choices=['Available', 'Sold', 'Reserved'])
 
-#PaintingForm uses a djangoforms ModelForm template to construct the form to populate Painting
-class PaintingForm(djangoforms.ModelForm):
-  class Meta:
-    model = Painting
-    exclude = ['idnumber']
 
+PaintingForm = model_form(Painting, exclude=('idnumber'))
 
 #This class constructs the admin dashboard, listing all the paintings and any messages based on URL parameters
-class AdminDashboard(webapp.RequestHandler):
+class AdminDashboard(webapp2.RequestHandler):
   def get(self):
     paintings = db.GqlQuery("SELECT * FROM Painting ORDER BY idnumber")
 
@@ -56,14 +53,15 @@ class AdminDashboard(webapp.RequestHandler):
       dup = str(dup) + ' painting(s) filtered out as duplicates.'
 
     template_values = {
-		    'paintings': paintings,
+            'paintings': paintings,
             'error': error,
             'added': added,
             'dup': dup,
             'deleted': deleted,
-		    }
-    path = os.path.join(os.path.dirname(__file__), 'admin/admin.html')
-    self.response.out.write(template.render(path, template_values))
+    }
+    template = JINJA_ENVIRONMENT.get_template('admin/admin.html')
+    self.response.write(template.render(template_values))
+
 
 #This method takes a painting and checks to make sure that the title or filename do not already exist in the database
 def dedup(painting):
@@ -87,10 +85,10 @@ def dedup(painting):
     dup = True
 
   return dup
-    
+
 
 #This class is used to create a new painting on a one-off basis
-class CreatePainting(webapp.RequestHandler):
+class CreatePainting(webapp2.RequestHandler):
 
   #The get method constructs an empty PaintingForm
   def get(self):
@@ -99,37 +97,42 @@ class CreatePainting(webapp.RequestHandler):
     template_values = {
             'url': url,
             'paintingform': paintingform,
-		    'text': "Create new",
-		    }
-    path = os.path.join(os.path.dirname(__file__), 'admin/painting.html')
-    self.response.out.write(template.render(path, template_values))
-
+            'text': "Create new",
+    }
+    template = JINJA_ENVIRONMENT.get_template('admin/painting.html')
+    self.response.write(template.render(template_values))
 
   #The post method takes the data from the form and puts it in the database
   def post(self):
-    data = PaintingForm(data=self.request.POST)
+    form = PaintingForm(self.request.POST)
 
     #Verifies that the data is formatted correctly
-    if data.is_valid():
-      entity = data.save(commit=False)
+    if form.validate():
+      painting = Painting(
+              title=form.title.data,
+              description=form.description.data,
+              filename=form.filename.data,
+              size=form.size.data,
+              price=form.price.data,
+              status=form.status.data)
+      form.populate_obj(painting)
 
       #Checks if the entry is a duplicate
-      isdup = dedup(entity)
+      isdup = dedup(painting)
 
       #If it is a duplicate, the form is repopulated with an error message
       if isdup:
-        paintingform = data
         error = "Title or filename already exists"
         url = 'create'
 
         template_values = {
               'error': error,
               'url': url,
-              'paintingform': paintingform,
+              'paintingform': form,
               'text': "Create new",
               }
-        path = os.path.join(os.path.dirname(__file__), 'admin/painting.html')
-        self.response.out.write(template.render(path, template_values))
+        template = JINJA_ENVIRONMENT.get_template('admin/painting.html')
+        self.response.write(template.render(template_values))
 
       #If it is not a duplicate, the data is put in the database
       else:
@@ -141,40 +144,40 @@ class CreatePainting(webapp.RequestHandler):
           r = lastpainting.idnumber
         else:
           r = 0
-        entity.idnumber = r + 1
+        painting.idnumber = r + 1
 
         #Data is stored in the database
-        entity.put()
+        painting.put()
         self.redirect('/admin?added=1')
 
     #If the data is not formatted correctly, the form is recreated with form-specific error messaging
     else:
-      paintingform = data
       url = 'create'
       template_values = {
             'url': url,
-            'paintingform': paintingform,
+            'paintingform': form,
             'text': "Create new",
             }
-      path = os.path.join(os.path.dirname(__file__), 'admin/painting.html')
-      self.response.out.write(template.render(path, template_values))
+      template = JINJA_ENVIRONMENT.get_template('admin/painting.html')
+      self.response.write(template.render(template_values))
 
 
 #This class is used to bulk upload paintings into the database with a CSV file
-class CSVUpload(webapp.RequestHandler):
+class CSVUpload(webapp2.RequestHandler):
 
   def post(self):
-    form = cgi.FieldStorage()
-    csvfile = form["csvupload"].file
+    csvfile = self.request.get("csvupload")
 
     #Verifies that the header of the file is formatted correctly
-    header = csvfile.readline()
+    csvReader = csv.reader(csvfile.split("\n"))
+    header = csvReader.next()
+    header = ','.join(header)
     if header:
 
       #If it is not formatted correctly, an error message is displayed
       if re.match('Title,Description,Series,Size,Price,Status,Filename', re.sub('\r\n',"",header)) == None:
         self.redirect('/admin?error=' + header)
-      
+
       else:
 
         #Extracts the idnumber of the last painting in the database
@@ -191,7 +194,6 @@ class CSVUpload(webapp.RequestHandler):
         added = 0
 
         #Using the csv module's reader class, reads each row and assigns the data to the appropriate variable
-        csvReader = csv.reader(form["csvupload"].file, dialect=csv.excel)
         for row in csvReader:
           new_idnumber = r + 1
           new_title = row[0]
@@ -229,21 +231,21 @@ class CSVUpload(webapp.RequestHandler):
     #If there is no header (i.e. no file), an error message is displayed
     else:
       self.redirect('/admin?error=0')
- 
+
 
 #This class is used to edit a painting that already exists in the database
-class EditPainting(webapp.RequestHandler):
+class EditPainting(webapp2.RequestHandler):
 
   #The get method creates an instance of PaintingForm with the selected painting's data populated
   def get(self):
-    
+
     #Extracts the painting id from the URL and queries the database for that painting
     id = self.request.get('id')
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
-    
+
     #Creates an instance of PaintingForm with that painting's data
-    paintingform = PaintingForm(instance=painting)
+    paintingform = PaintingForm(None, painting)
 
     #Creates the url variable to go in the form template
     url = 'edit?id=' + str(id)
@@ -252,54 +254,47 @@ class EditPainting(webapp.RequestHandler):
             'url': url,
             'id': id,
             'paintingform': paintingform,
-		    'text': "Update",
-		    }
-
-    path = os.path.join(os.path.dirname(__file__), 'admin/painting.html')
-    self.response.out.write(template.render(path, template_values))
+            'text': "Update",
+    }
+    template = JINJA_ENVIRONMENT.get_template('admin/painting.html')
+    self.response.write(template.render(template_values))
 
   #The post method extracts the data from the form for that specific painting and adds it to the database
   def post(self):
-    
+
     #Extracts the id from the URL and queries for that specific painting
     id = self.request.get('id')
     query = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
     painting = query.get()
 
     #Extracts the data from the form
-    data = PaintingForm(data=self.request.POST, instance=painting)
+    form = PaintingForm(self.request.POST, painting)
 
     #Checks that the data conforms to the database parameters
-    if data.is_valid():
-
-      # Save the data, and redirect to the view page
-      entity = data.save(commit=False)
+    if form.validate():
+      form.populate_obj(painting)
 
       #Data is stored in the database
-      entity.put()
+      painting.put()
       self.redirect('/admin')
 
     else:
       # Reprint the form with appropriate error messaging
-      paintingform = data
       url = 'edit?id=' + str(id)
-
       template_values = {
             'url': url,
             'id': id,
-            'paintingform': paintingform,
+            'paintingform': form,
             'text': "Update",
             }
-
-      path = os.path.join(os.path.dirname(__file__), 'admin/painting.html')
-      self.response.out.write(template.render(path, template_values))
+      template = JINJA_ENVIRONMENT.get_template('admin/painting.html')
+      self.response.write(template.render(template_values))
 
 
 #This class deletes the painting of a given idnumber from the database
-class DeletePainting(webapp.RequestHandler):
+class DeletePainting(webapp2.RequestHandler):
 
   def get(self):
-    
     #Extracts the id number from the URL and queries the database for that painting
     id = self.request.get('id')
     product = db.GqlQuery("SELECT * FROM Painting WHERE idnumber = %s" % id)
@@ -309,18 +304,11 @@ class DeletePainting(webapp.RequestHandler):
     self.redirect('/admin?deleted=1')
 
 
-
-
 #This is webapp application constructor for the admin pages, which constructs pages using the classes above based on the URL provided
-application = webapp.WSGIApplication ([('/admin', AdminDashboard),
-                                       ('/admin/delete', DeletePainting),
-				                               ('/admin/create', CreatePainting),
-				                               ('/admin/csvupload', CSVUpload),
-				                               ('/admin/edit', EditPainting)],
-				                              debug=True)
+app = webapp2.WSGIApplication ([('/admin', AdminDashboard),
+                                ('/admin/delete', DeletePainting),
+                                ('/admin/create', CreatePainting),
+                                ('/admin/csvupload', CSVUpload),
+                                ('/admin/edit', EditPainting)],
+                               debug=True)
 
-def main():
-  run_wsgi_app(application)
-
-if __name__ == "__main__":
-  main()
